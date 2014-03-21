@@ -32,17 +32,17 @@ Example Usage
 
 2. (Optional) Set up your ssh key and hostname in your ssh config.
 
-3. Set up openstax/services on raring: (The "Common Name" should be the site name, "raring" in this case, when creating the ssl cert)
+3. Set up openstax/accounts on raring: (The "Common Name" should be the site name, "raring" in this case, when creating the ssl cert)
 
-   ``./bin/fab -H raring services_setup``
+   ``./bin/fab -H raring accounts_setup``
 
 4. Read the output and do some manual setup.
 
-5. Start services (in 2 terminals):
+5. Start accounts (in 2 terminals):
 
-   ``./bin/fab -H raring services_run``
+   ``./bin/fab -H raring accounts_run``
 
-   ``./bin/fab -H raring services_run_ssl``
+   ``./bin/fab -H raring accounts_run_ssl``
 
 6. Set up openstax/connect-rails example on raring:
 
