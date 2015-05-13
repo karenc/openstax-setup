@@ -80,6 +80,7 @@ def accounts_setup(https=''):
     """Set up openstax/accounts"""
     _setup()
     _setup_ssl()
+    _install_postgresql()
     if not fabric.contrib.files.exists('accounts'):
         if https:
             run('git clone https://github.com/openstax/accounts')
