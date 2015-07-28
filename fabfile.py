@@ -664,3 +664,25 @@ def exchange_test(test_case=None):
                 run('bundle install --without production')
                 run('rake db:migrate')
                 run('rake')
+
+
+def openstax_utilities_setup(https=''):
+    """Set up openstax/openstax_utilities"""
+    _setup()
+    if not fabric.contrib.files.exists('openstax_utilities'):
+        if https:
+            run('git clone https://github.com/openstax/openstax_utilities.git')
+        else:
+            run('git clone git@github.com:openstax/openstax_utilities.git')
+    with cd('openstax_utilities'):
+        with prefix('source {}'.format(RVM)):
+            run('rvm install $(cat .ruby-version)')
+            run('bundle install --without production')
+            run('rake db:setup')
+
+
+def openstax_utilities_test():
+    """Run openstax/openstax_utilities tests"""
+    with cd('openstax_utilities'):
+        with prefix('source {}'.format(RVM)):
+            run('rake')
