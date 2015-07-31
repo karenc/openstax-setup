@@ -695,3 +695,27 @@ def openstax_utilities_test():
     with cd('openstax_utilities'):
         with prefix('source {}'.format(RVM)):
             run('rake')
+
+
+def accounts_rails_setup(https=''):
+    """Set up openstax/accounts-rails"""
+    _setup()
+    if not fabric.contrib.files.exists('accounts-rails'):
+        if https:
+            run('git clone https://github.com/openstax/accounts-rails.git')
+        else:
+            run('git clone git@github.com:openstax/accounts-rails.git')
+    with cd('accounts-rails'):
+        with prefix('source {}'.format(RVM)):
+            run('rvm install 2.2.1')
+            with prefix('rvm use 2.2.1'):
+                run('bundle install --without production')
+                run('rake db:setup')
+
+
+def accounts_rails_test():
+    """Run openstax/accounts-rails tests"""
+    with cd('accounts-rails'):
+        with prefix('source {}'.format(RVM)):
+            with prefix('rvm use 2.2.1'):
+                run('rake')
