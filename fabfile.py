@@ -188,7 +188,7 @@ server {
         sudo('/etc/init.d/nginx restart')
 
 
-def accounts_run_unicorn():
+def accounts_run_unicorn(fg=''):
     """Run openstax/accounts using unicorn_rails"""
     with cd('accounts'):
         if not fabric.contrib.files.exists('config/unicorn.rb'):
@@ -210,7 +210,10 @@ timeout 30
             run('bundle install')
             run('pkill -f unicorn_rails || 0', warn_only=True)
             run('rm -f /tmp/unicorn.accounts.sock')
-            run('unicorn_rails -D -c config/unicorn.rb')
+            if fg:
+                run('unicorn_rails -c config/unicorn.rb')
+            else:
+                run('unicorn_rails -D -c config/unicorn.rb')
 
 
 def accounts_test(test_case=None, traceback=''):
@@ -235,6 +238,12 @@ def accounts_routes():
     with cd('accounts'):
         with prefix('source {}'.format(RVM)):
             run('rake routes')
+
+
+def accounts_log():
+    """Show openstax/accounts development.log"""
+    with cd('accounts'):
+        run('tail -f log/development.log')
 
 
 def example_setup():
